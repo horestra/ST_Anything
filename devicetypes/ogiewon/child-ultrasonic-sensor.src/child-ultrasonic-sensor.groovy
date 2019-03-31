@@ -16,6 +16,7 @@
  *
  *    Date        Who            What
  *    ----        ---            ----
+ *    2018-06-02  Dan Ogorchock  Revised/Simplified for Hubitat Composite Driver Model
  *   
  *
  * 
@@ -23,10 +24,9 @@
 metadata {
 	definition (name: "Child Ultrasonic Sensor", namespace: "ogiewon", author: "Daniel Ogorchock") {
 		capability "Sensor"
+        
 		attribute "lastUpdated", "String"
         attribute "ultrasonic", "Number"
-
-		command "generateEvent", ["string", "string"]
     }
 
 	tiles(scale: 2) {
@@ -53,23 +53,32 @@ metadata {
         input name: "diameter", type: "number", title: "Diameter", description: "Enter diameter of tank", required: true
     }
 }
-def generateEvent(String name, String value) {
-	log.debug("Passed values to routine generateEvent in device named $device: Name - $name  -  Value - $value")
-    double sensorValue = value as float
-    def volume = 3.14159 * (diameter/2) * (diameter/2) * height
-    double capacityLiters = volume / 1000 * 2
-    capacityLiters = capacityLiters.round(2)
-    sendEvent(name: "liters", value: capacityLiters)
-    double capacityValue = 100 - (sensorValue/height * 100 )
-    if(capacityValue != 100)
-    {
-    	capacityValue = capacityValue.round(2)
-    	sendEvent(name: name, value: capacityValue)
+
+def parse(String description) {
+    log.debug "parse(${description}) called"
+	def parts = description.split(" ")
+    def name  = parts.length>0?parts[0].trim():null
+    def value = parts.length>1?parts[1].trim():null
+    if (name && value) {
+        double sensorValue = value as float
+        def volume = 3.14159 * (diameter/2) * (diameter/2) * height
+        double capacityLiters = volume / 1000 * 2
+        capacityLiters = capacityLiters.round(2)
+        sendEvent(name: "liters", value: capacityLiters)
+        double capacityValue = 100 - (sensorValue/height * 100 )
+        if(capacityValue != 100)
+        {
+            capacityValue = capacityValue.round(2)
+            sendEvent(name: name, value: capacityValue)
+        }
+        // Update lastUpdated date and time
+        def nowDay = new Date().format("MMM dd", location.timeZone)
+        def nowTime = new Date().format("h:mm a", location.timeZone)
+        sendEvent(name: "lastUpdated", value: nowDay + " at " + nowTime, displayed: false)
     }
-    // Update lastUpdated date and time
-    def nowDay = new Date().format("MMM dd", location.timeZone)
-    def nowTime = new Date().format("h:mm a", location.timeZone)
-    sendEvent(name: "lastUpdated", value: nowDay + " at " + nowTime, displayed: false)
+    else {
+    	log.debug "Missing either name or value.  Cannot parse!"
+    }
 }
 
 def installed() {

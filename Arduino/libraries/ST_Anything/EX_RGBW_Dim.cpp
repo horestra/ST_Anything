@@ -29,7 +29,8 @@
 //    2018-08-14  Dan Ogorchock  Modified to avoid compiler errors on ESP32 since it currently does not support "analogWrite()"
 //    2017-08-30  Dan Ogorchock  Modified comment section above to comply with new Parent/Child Device Handler requirements
 //    2017-10-08  Allan (vseven) Modified original code from EX_RGBW_Dim to be used for RGB lighting
-//    2017-10-12  Allan (vseven) Modified EX_RGBW_Dim for support of a White LEd channel
+//    2017-10-12  Allan (vseven) Modified EX_RGBW_Dim for support of a White LED channel
+//    2018-04-02  Dan Ogorchock  Fixed Typo
 //
 //******************************************************************************************
 #include "EX_RGBW_Dim.h"
@@ -50,7 +51,7 @@ namespace st
 	if (m_bCurrentState == HIGH) {
 		// Our status is on so get the RGBW value from the hex
 		String hexstring = m_sCurrentHEX;
-		long number = (long) strtol( &hexstring[1], NULL, 16);
+		unsigned long number = (unsigned long) strtoul( &hexstring[1], NULL, 16);
       		// Split them up into r, g, b, w values
       		subStringR = number >> 24;
       		subStringG = number >> 16 & 0xFF;
@@ -117,7 +118,7 @@ namespace st
 		setRedPin(pinR, channelR);
 		setGreenPin(pinG, channelG);
 		setBluePin(pinB, channelB);
-		setWhitePin(pinB, channelW);
+		setWhitePin(pinW, channelW);
 	}
 
 	//destructor

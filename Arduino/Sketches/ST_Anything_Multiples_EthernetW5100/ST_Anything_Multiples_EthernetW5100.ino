@@ -136,14 +136,14 @@
 #define PIN_DIMMERSWITCH_2        47  //SmartThings Capability "Switch"
 
 //Garage Door Pins 
-#define PIN_DOORCONTROL_CONTACT_1 35  //SmartThings Capabilty "Door Control" 
-#define PIN_DOORCONTROL_RELAY_1   36  //SmartThings Capabilty "Door Control" 
-#define PIN_DOORCONTROL_CONTACT_2 37  //SmartThings Capabilty "Door Control"  
-#define PIN_DOORCONTROL_RELAY_2   38  //SmartThings Capabilty "Door Control" 
+#define PIN_DOORCONTROL_CONTACT_1 35  //SmartThings Capability "Door Control" 
+#define PIN_DOORCONTROL_RELAY_1   36  //SmartThings Capability "Door Control" 
+#define PIN_DOORCONTROL_CONTACT_2 37  //SmartThings Capability "Door Control"  
+#define PIN_DOORCONTROL_RELAY_2   38  //SmartThings Capability "Door Control" 
 
 //Pushbutton Pins
-#define PIN_BUTTON1               48  //SmartThings Capabilty Button / Holdable Button
-#define PIN_BUTTON2               49  //SmartThings Capabilty Button / Holdable Button
+#define PIN_BUTTON1               48  //SmartThings Capability Button / Holdable Button
+#define PIN_BUTTON2               49  //SmartThings Capability Button / Holdable Button
 
 //******************************************************************************************
 //W5100 Ethernet Shield Information
